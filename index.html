@@ -55,13 +55,13 @@
         .session-info span { display: block; font-size: 11px; color: #a66878; font-weight: bold; }
         .session-info strong { font-size: 15px; color: #593542; }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .card { background: #fff; padding: 14px; border: 3px solid #e07a94; box-shadow: 4px 4px 0 #e07a94; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+        .card { background: #fff; padding: 12px; border: 3px solid #e07a94; box-shadow: 4px 4px 0 #e07a94; }
         .card p.title { font-size: 12px; color: #e07a94; margin-bottom: 4px; font-weight: bold; }
-        .card p.income { font-size: 20px; font-weight: 900; color: #38b070; }
-        .card p.expense { font-size: 20px; font-weight: 900; color: #e06d7d; }
+        .card p.income { font-size: 18px; font-weight: 900; color: #38b070; }
+        .card p.expense { font-size: 18px; font-weight: 900; color: #e06d7d; }
 
-        .pay-stat-box { background: #fff0f3; border: 3px solid #e07a94; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-around; box-shadow: 3px 3px 0 #e07a94; font-weight: bold; font-size: 13px; color: #593542; }
+        .sub-stat { font-size: 12px; font-weight: bold; color: #593542; margin-top: 4px; padding-top: 4px; border-top: 1px dashed #ffd1dc; display: flex; justify-content: space-between; }
 
         .btn-action { width: 100%; padding: 14px; border: 3px solid #fff; box-shadow: 4px 4px 0 #e07a94; font-size: 15px; font-weight: 900; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-inc { background: #e07a94; }
@@ -176,22 +176,28 @@
                     <div class="pixel-text-box" style="background: #fff;">
                         <h3>💰 今日營運概況</h3>
                         <div class="grid-2" style="margin-top: 8px; margin-bottom: 8px;">
+                            <!-- 今日總營收卡片（內含現金與 LINE Pay 拆解） -->
                             <div class="card" style="padding: 10px;">
                                 <p class="title">今日總營收</p>
                                 <p id="start-total-income" class="income" style="font-size: 16px;">$ 0</p>
+                                <div class="sub-stat">
+                                    <span>💵 現金:</span>
+                                    <span>$<span id="cash-income">0</span></span>
+                                </div>
+                                <div class="sub-stat">
+                                    <span>🟢 LINE Pay:</span>
+                                    <span>$<span id="linepay-income">0</span></span>
+                                </div>
                             </div>
-                            <div class="card" style="padding: 10px;">
-                                <p class="title">今日總支出</p>
-                                <p id="start-total-expense" class="expense" style="font-size: 16px;">$ 0</p>
+                            <!-- 今日總支出卡片 -->
+                            <div class="card" style="padding: 10px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <p class="title">今日總支出</p>
+                                    <p id="start-total-expense" class="expense" style="font-size: 16px;">$ 0</p>
+                                </div>
                             </div>
                         </div>
                         <button class="btn-action btn-exp" id="btn-open-expense" style="padding: 10px; font-size: 13px;">➖ 記錄一筆攤位支出</button>
-                    </div>
-
-                    <!-- 現金與 LINE Pay 總額小看板 -->
-                    <div class="pay-stat-box" style="margin-top: 12px; margin-bottom: 0;">
-                        <div>💵 現金總額: $<span id="cash-income">0</span></div>
-                        <div>🟢 LINE Pay: $<span id="linepay-income">0</span></div>
                     </div>
 
                     <div class="pixel-text-box">
