@@ -6,232 +6,102 @@
     <title>阿桑的菜籃攤位幫手</title>
     <style>
         html, body { width: 100%; height: 100%; background-color: #ffd6e0; margin: 0; padding: 0; }
-        * { box-sizing: border-box; font-family: "Courier New", Courier, monospace; -webkit-tap-highlight-color: transparent; }
-        
+        * { box-sizing: border-box; font-family: "Courier New", Courier, monospace; }
         body { color: #6b4c58; padding: 16px; padding-bottom: 80px; overflow-y: auto; }
         .container { max-width: 480px; margin: 0 auto; }
-        
         .retro-window { background: #ffb3c6; border: 4px solid #ffffff; box-shadow: 6px 6px 0 #e07a94; padding: 8px; margin-bottom: 20px; }
         .window-header { background: #e07a94; color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; margin-bottom: 4px; border-bottom: 2px solid #fff; font-weight: bold; font-size: 14px; }
-        .window-title { display: flex; align-items: center; gap: 6px; }
-        .window-heart { color: #fff0f3; }
-        .window-controls { display: flex; gap: 4px; }
-        .ctrl-btn { width: 20px; height: 20px; background: #ffb3c6; border: 2px solid #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #e07a94; line-height: 0; }
-
         .tab-bar { display: flex; border-bottom: 4px solid #e07a94; background: #ffb3c6; }
         .tab-btn { flex: 1; padding: 8px 1px; text-align: center; cursor: pointer; border-right: 2px solid #e07a94; font-size: 10px; font-weight: 900; color: #8c5866; background: #ffb3c6; position: relative; bottom: -4px; }
-        .tab-btn:last-child { border-right: none; }
         .tab-btn.active { background: #ffffff; border-top: 4px solid #e07a94; border-left: 4px solid #e07a94; border-right: 4px solid #e07a94; border-bottom: 4px solid #ffffff; color: #593542; z-index: 1; }
-
-        .window-content { background: #fff; border: 4px solid #fff; border-top: none; padding: 16px; position: relative; overflow: hidden; }
-        
-        .star-field { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #fff9fa 0%, #fff 100%); font-size: 10px; color: #ffccd8; line-height: 1; pointer-events: none; z-index: 0; }
-        .star-field span { position: absolute; }
-
-        .top-message { font-size: 24px; font-weight: 900; color: #e07a94; text-shadow: 2px 2px 0 #fff, 3px 3px 0 #fff0f3; margin-bottom: 12px; text-align: center; position: relative; z-index: 1; }
-
-        .pixel-text-box { background: #fff0f3; border: 2px solid #e07a94; padding: 12px; margin-top: 12px; text-align: left; font-size: 12px; color: #593542; line-height: 1.4; position: relative; z-index: 1;}
-        .pixel-text-box h3 { font-size: 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; color: #c25975; }
-
-        .session-banner { background: #fff0f3; border: 3px solid #e07a94; padding: 10px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 3px 3px 0 #e07a94; }
-        .session-info span { display: block; font-size: 11px; color: #a66878; font-weight: bold; }
-        .session-info strong { font-size: 15px; color: #593542; }
-
+        .window-content { background: #fff; border: 4px solid #fff; border-top: none; padding: 16px; }
+        .pixel-text-box { background: #fff0f3; border: 2px solid #e07a94; padding: 12px; margin-top: 12px; font-size: 12px; color: #593542; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .card { background: #fff; padding: 14px; border: 3px solid #e07a94; box-shadow: 4px 4px 0 #e07a94; }
-        .card p.title { font-size: 12px; color: #e07a94; margin-bottom: 4px; font-weight: bold; }
-        .card p.income { font-size: 20px; font-weight: 900; color: #38b070; }
-        .card p.expense { font-size: 20px; font-weight: 900; color: #e06d7d; }
-
-        .payment-summary-box { background: #fff; border: 3px solid #38b070; padding: 12px; margin-top: 12px; display: flex; justify-content: space-around; font-weight: 900; font-size: 14px; color: #593542; box-shadow: 3px 3px 0 #38b070; }
-
-        .btn-action { width: 100%; padding: 14px; border: 3px solid #fff; box-shadow: 4px 4px 0 #e07a94; font-size: 15px; font-weight: 900; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .btn-inc { background: #e07a94; }
-        .btn-exp { background: #d6687a; }
-
-        .section { background: #fff; padding: 16px; border: 3px solid #e07a94; margin-bottom: 16px; box-shadow: 4px 4px 0 #e07a94; }
-        .section h2 { font-size: 14px; color: #593542; margin-bottom: 12px; font-weight: bold; border-bottom: 2px solid #fff0f3; padding-bottom: 4px;}
-        
-        .quick-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .quick-btn { background: #fff0f3; border: 3px solid #fff; box-shadow: 3px 3px 0 #e07a94; color: #593542; padding: 8px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; font-weight: bold; position: relative; overflow: visible; }
-        .quick-btn img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; background: #ffe4eb; border: 2px solid #e07a94; pointer-events: none; }
-        .quick-btn .p-info { font-size: 12px; color: #593542; line-height: 1.2; pointer-events: none; }
-
-        @keyframes floatHeart { 0% { transform: translateY(0) scale(0.6); opacity: 1; } 50% { transform: translateY(-40px) scale(1.2); opacity: 0.8; } 100% { transform: translateY(-80px) scale(1); opacity: 0; } }
-        .floating-heart { position: absolute; font-size: 20px; color: #ff5c8a; text-shadow: 1px 1px 0 #fff; pointer-events: none; animation: floatHeart 0.8s ease-out forwards; z-index: 99; font-family: "Courier New", Courier, monospace; font-weight: 900; }
-
-        .trans-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px dashed #e07a94; font-size: 12px; gap: 8px; }
-        .trans-left { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-        .trans-payment-tag { font-size: 11px; font-weight: bold; color: #a66878; }
-        .trans-details { padding-left: 10px; font-size: 12px; color: #593542; line-height: 1.3; }
-        .trans-time { font-size: 10px; color: #b88693; margin-top: 2px; }
-        
-        .trans-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-        .del-btn { background: #ffe4eb; border: 1px solid #e07a94; color: #d6687a; font-size: 12px; font-weight: bold; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
-
-        .modal-overlay { position: fixed; inset: 0; background: rgba(224,122,148,0.7); display: none; align-items: flex-end; justify-content: center; z-index: 999; }
-        .modal-overlay.active { display: flex; }
-        .modal-box { background: #fff0f3; border: 4px solid #fff; width: 100%; max-width: 480px; padding: 12px; border-radius: 20px 20px 0 0; box-shadow: 0 -6px 0 #e07a94; min-height: 480px; max-height: 96vh; overflow-y: auto; position: relative; }
-        
-        .close-x-btn { position: absolute; top: 10px; right: 10px; background: #e07a94; border: 3px solid #fff; width: 28px; height: 28px; font-size: 15px; font-weight: bold; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 0 #593542;}
-        .modal-box h3 { font-size: 15px; margin-bottom: 6px; font-weight: 900; color: #593542; border-bottom: 2px solid #e07a94; padding-bottom: 3px; }
-        .input-group { margin-bottom: 6px; }
-        .input-group label { display: block; font-size: 11px; color: #e07a94; margin-bottom: 2px; font-weight: bold; }
-        .input-group input[type="text"], .input-group input[type="number"] { width: 100%; padding: 6px; border: 2px solid #e07a94; font-size: 14px; background: #fff; outline: none; color: #593542;}
-        .btn-confirm { background: #e07a94; border: 3px solid #fff; box-shadow: 3px 3px 0 #593542; padding: 12px; font-weight: 900; color: #fff; cursor: pointer; font-size: 16px; width: 100%; margin-top: 6px;}
-        .specs-container { background: #fff; border: 3px solid #e07a94; padding: 12px; margin-bottom: 12px; border-radius: 6px; }
-        .spec-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
-        .spec-row input { flex: 1; padding: 6px; border: 2px solid #e07a94; font-size: 14px; }
-        .cart-item-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 6px 10px; border: 2px solid #e07a94; margin-bottom: 4px; border-radius: 4px; font-size: 13px; }
-        .pay-method-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 4px 0; }
-        .pay-btn { padding: 8px; border: 2px solid #e07a94; background: #fff; font-weight: 900; color: #593542; cursor: pointer; text-align: center; font-size: 13px; }
-        .pay-btn.selected { background: #e07a94; color: #fff; border-color: #fff; box-shadow: 2px 2px 0 #593542; }
-        .calc-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 4px; }
-        .calc-btn { background: #fff; border: 2px solid #e07a94; padding: 11px; font-size: 18px; font-weight: 900; color: #593542; cursor: pointer; text-align: center; box-shadow: 2px 2px 0 #e07a94; }
-        .calc-quick-btn { flex: 1; background: #fff0f3; border: 2px solid #e07a94; padding: 8px; font-size: 13px; font-weight: 900; color: #593542; cursor: pointer; text-align: center; }
+        .card { background: #fff; padding: 10px; border: 3px solid #e07a94; box-shadow: 4px 4px 0 #e07a94; text-align: center; }
+        .income { color: #38b070; font-weight: 900; font-size: 16px; }
+        .expense { color: #e06d7d; font-weight: 900; font-size: 16px; }
+        .payment-summary-box { background: #fff; border: 3px solid #38b070; padding: 12px; margin-top: 12px; display: flex; justify-content: space-around; font-weight: 900; font-size: 13px; color: #593542; box-shadow: 3px 3px 0 #38b070; }
+        .trans-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #e07a94; font-size: 12px; }
+        .btn-action { width: 100%; padding: 10px; background: #d6687a; color: #fff; border: 3px solid #fff; cursor: pointer; font-weight: 900; margin-top: 8px; }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="retro-window">
-            <div class="window-header">
-                <div class="window-title"><span class="window-heart">♥</span> 阿桑的菜籃攤位幫手 v1.998</div>
-                <div class="window-controls"><div class="ctrl-btn">_</div><div class="ctrl-btn">□</div><div class="ctrl-btn">×</div></div>
-            </div>
-            
+            <div class="window-header">♥ 阿桑的菜籃攤位幫手 v1.999</div>
             <div class="tab-bar">
-                <div class="tab-btn active" id="tab-btn-start" onclick="switchTab('start')">攤位大廳</div>
-                <div class="tab-btn" id="tab-btn-front" onclick="switchTab('front')">快速收銀</div>
-                <div class="tab-btn" id="tab-btn-stock" onclick="switchTab('stock')">商品管理</div>
-                <div class="tab-btn" id="tab-btn-stats" onclick="switchTab('stats')">銷售統計</div>
-                <div class="tab-btn" id="tab-btn-history" onclick="switchTab('history')">歷史紀錄</div>
+                <div class="tab-btn active" id="tab-btn-start" onclick="switchTab('start')">大廳</div>
+                <div class="tab-btn" id="tab-btn-front" onclick="switchTab('front')">收銀</div>
+                <div class="tab-btn" id="tab-btn-stock" onclick="switchTab('stock')">商品</div>
+                <div class="tab-btn" id="tab-btn-stats" onclick="switchTab('stats')">統計</div>
+                <div class="tab-btn" id="tab-btn-history" onclick="switchTab('history')">歷史</div>
             </div>
-
             <div class="window-content">
-                <!-- 1. 攤位大廳頁面 -->
                 <div id="tab-content-start" class="tab-pane">
-                    <div class="star-field" id="starField"></div>
-                    <div class="top-message">🍀阿桑加油👏</div>
-                    
-                    <div class="pixel-text-box" style="text-align: center; background: #fff0f3;">
-                        <h3 style="justify-content: center;">🎪 今日擺哪裡？</h3>
-                        <p id="home-session-status" style="margin-bottom: 8px; font-weight: bold; color: #593542;">目前狀態：尚未開始擺攤</p>
-                        <div id="session-input-area" style="display: flex; gap: 6px; margin-top: 8px;">
-                            <input type="text" id="session-name-input" placeholder="輸入場次名稱" style="flex:1; padding:8px; border:2px solid #e07a94; font-size:13px; background:#fff;">
-                            <button onclick="startSession()" style="background:#e07a94; color:#fff; border:2px solid #fff; padding:8px 12px; font-weight:bold; cursor:pointer; font-size:12px;">開始</button>
-                        </div>
-                        <div id="session-active-area" style="display: none; margin-top: 8px;">
-                            <button onclick="endSession()" style="background:#d6687a; color:#fff; border:2px solid #fff; padding:8px 16px; font-weight:bold; cursor:pointer; font-size:13px;">收攤</button>
-                        </div>
-                    </div>
-
-                    <div class="pixel-text-box" style="background: #fff;">
+                    <div style="text-align:center; font-weight:900; color:#e07a94; font-size:20px;">🍀阿桑加油👏</div>
+                    <div class="pixel-text-box">
                         <h3>💰 今日營運概況</h3>
-                        <div class="grid-2" style="margin-top: 8px; margin-bottom: 8px;">
-                            <div class="card" style="padding: 10px;">
-                                <p class="title">今日總營收</p>
-                                <p id="start-total-income" class="income" style="font-size: 16px;">$ 0</p>
-                            </div>
-                            <div class="card" style="padding: 10px;">
-                                <p class="title">今日總支出</p>
-                                <p id="start-total-expense" class="expense" style="font-size: 16px;">$ 0</p>
-                            </div>
+                        <div class="grid-2">
+                            <div class="card"><p>總營收</p><p id="start-total-income" class="income">$ 0</p></div>
+                            <div class="card"><p>總支出</p><p id="start-total-expense" class="expense">$ 0</p></div>
                         </div>
-                        <button class="btn-action btn-exp" id="btn-open-expense" style="padding: 10px; font-size: 13px;">➖ 記錄一筆攤位支出</button>
                     </div>
-
-                    <!-- 【新增區塊】現金/LINE Pay統計 -->
+                    <!-- 新增：統計區塊 -->
                     <div class="payment-summary-box">
                         <div>💵 現金: $<span id="cash-income-display">0</span></div>
                         <div>🟢 LINE Pay: $<span id="linepay-income-display">0</span></div>
                     </div>
-
                     <div class="pixel-text-box">
-                        <h3>💵 零錢箱清單小幫手</h3>
-                        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span>1000元：</span><input type="number" id="coin-1000" value="0" oninput="calculateChangeBox()" style="width:70px; border:1px solid #e07a94; text-align:right;"></div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span>500元：</span><input type="number" id="coin-500" value="0" oninput="calculateChangeBox()" style="width:70px; border:1px solid #e07a94; text-align:right;"></div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span>100元：</span><input type="number" id="coin-100" value="0" oninput="calculateChangeBox()" style="width:70px; border:1px solid #e07a94; text-align:right;"></div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span>50元：</span><input type="number" id="coin-50" value="0" oninput="calculateChangeBox()" style="width:70px; border:1px solid #e07a94; text-align:right;"></div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span>10元：</span><input type="number" id="coin-10" value="0" oninput="calculateChangeBox()" style="width:70px; border:1px solid #e07a94; text-align:right;"></div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;"><span>5元：</span><input type="number" id="coin-5" value="0" oninput="calculateChangeBox()" style="width:70px; border:1px solid #e07a94; text-align:right;"></div>
-                        </div>
-                        <div style="margin-top: 8px; font-weight: 900; color:#38b070;">總計：$<span id="coin-total-amount">0</span></div>
-                    </div>
-
-                    <div class="pixel-text-box" style="background:#fff; text-align:center;">
-                        <h3>💾 資料安全備份</h3>
-                        <p id="backup-time-display" style="color:#d17a94; font-size:0.9em; font-weight:bold; margin-bottom:8px;">上次備份時間：尚未備份</p>
-                        <div style="display:flex; gap:8px;">
-                            <button onclick="exportData()" style="flex:1; background:#e07a94; color:#fff; border:none; padding:8px;">📥 備份</button>
-                            <button onclick="document.getElementById('import-file').click()" style="flex:1; background:#b88693; color:#fff; border:none; padding:8px;">📤 還原</button>
-                            <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importData(event)">
-                        </div>
+                        <h3>💵 零錢箱小幫手</h3>
+                        <div id="backup-time-display" style="font-size:10px; color:#d17a94;">上次備份：尚未備份</div>
                     </div>
                 </div>
-
-                <!-- 2. 快速收銀頁面 -->
-                <div id="tab-content-front" class="tab-pane" style="display: none;">
-                    <div class="session-banner"><div class="session-info"><span>目前場次</span><strong id="display-session-name">未設定</strong></div></div>
-                    <div class="section" style="background: #fff0f3;">
-                        <h2>🛒 購物車</h2>
-                        <div id="active-cart-box"></div>
-                        <div style="display:flex; justify-content:space-between; font-weight:900;"><span>小計：$<span id="active-cart-total">0</span></span><button onclick="openCheckoutModal()" class="btn-inc" style="border:none; padding:8px;">結帳</button></div>
-                    </div>
-                    <div class="section"><h2>商品</h2><div id="home-quick-list" class="quick-list"></div></div>
-                    <div class="section"><h2>📋 今日明細</h2><div id="transaction-list"></div></div>
+                <div id="tab-content-front" class="tab-pane" style="display:none;">
+                    <h2>📋 今日明細紀錄 (最新在最上)</h2>
+                    <div id="transaction-list"></div>
                 </div>
-
-                <!-- 3. 庫存管理 -->
-                <div id="tab-content-stock" class="tab-pane" style="display: none;">...</div>
-                <!-- 4. 銷售統計 -->
-                <div id="tab-content-stats" class="tab-pane" style="display: none;">...</div>
-                <!-- 5. 歷史 -->
-                <div id="tab-content-history" class="tab-pane" style="display: none;">...</div>
+                <div id="tab-content-stock" class="tab-pane" style="display:none;"></div>
+                <div id="tab-content-stats" class="tab-pane" style="display:none;"></div>
+                <div id="tab-content-history" class="tab-pane" style="display:none;"></div>
             </div>
         </div>
     </div>
-    
     <script>
         let transactions = JSON.parse(localStorage.getItem('boothData')) || [];
-        let products = JSON.parse(localStorage.getItem('boothProducts')) || [];
         let currentSession = localStorage.getItem('boothSession') || '';
-        let sessionsHistory = JSON.parse(localStorage.getItem('boothSessionsHistory')) || {};
-        let currentCart = [];
 
-        function updateIncomeDisplays() {
-            let income = 0, expense = 0, cashIncome = 0, linepayIncome = 0;
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.style.display = 'none');
+            document.getElementById('tab-btn-' + tabName).classList.add('active');
+            document.getElementById('tab-content-' + tabName).style.display = 'block';
+        }
+
+        function updateUI() {
+            let income = 0, expense = 0, cash = 0, lp = 0;
             transactions.filter(t => t.session === currentSession).forEach(t => {
-                if (t.type === 'income') {
+                if(t.type === 'income') {
                     income += t.amount;
-                    if (t.payment === '現金') cashIncome += t.amount;
-                    else if (t.payment === 'LINE Pay') linepayIncome += t.amount;
+                    if(t.payment === '現金') cash += t.amount;
+                    else lp += t.amount;
                 } else expense += t.amount;
             });
             document.getElementById('start-total-income').innerText = `$ ${income.toLocaleString()}`;
             document.getElementById('start-total-expense').innerText = `$ ${expense.toLocaleString()}`;
-            document.getElementById('cash-income-display').innerText = cashIncome.toLocaleString();
-            document.getElementById('linepay-income-display').innerText = linepayIncome.toLocaleString();
-        }
+            document.getElementById('cash-income-display').innerText = cash.toLocaleString();
+            document.getElementById('linepay-income-display').innerText = lp.toLocaleString();
 
-        function updateUI() {
-            updateSessionUI();
-            updateIncomeDisplays();
             const list = document.getElementById('transaction-list');
             list.innerHTML = '';
-            transactions.filter(t => t.session === currentSession).reverse().forEach((t, index) => {
+            // 倒敘排列
+            [...transactions.filter(t => t.session === currentSession)].reverse().forEach(t => {
                 const div = document.createElement('div');
                 div.className = 'trans-item';
-                div.innerHTML = `<div>${t.name || t.items.map(it=>it.name).join(', ')}</div><div>$${t.amount.toLocaleString()}</div>`;
+                div.innerHTML = `<div>${t.name || '銷售'}</div><div>$${t.amount.toLocaleString()}</div>`;
                 list.appendChild(div);
             });
         }
-
-        // 其他基礎函式維持運作...
         updateUI();
-        loadCoinBox();
-        loadLastBackupTime();
     </script>
 </body>
 </html>
