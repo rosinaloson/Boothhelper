@@ -11,9 +11,13 @@
     <!-- 建議多加這一行：讓現代瀏覽器也可以讀取高畫質的 png 當作書籤圖示 -->
     <link rel="icon" type="image/png" href="321.png">
 
-    <!-- 2. 給 iOS 網頁 App / 加入主畫面用的標準圖示 -->
+   <!-- 2. 給 iOS 網頁 App / 加入主畫面用的標準圖示 -->
     <link rel="apple-touch-icon" href="321.png">
     <link rel="apple-touch-icon" sizes="180x180" href="321.png">
+
+    <!-- 👇 請在這裡加入這兩行，告訴瀏覽器這是一個 APP 👇 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffd6e0">
 
     <!-- 版本：v1.1005 -->
     <style>
@@ -1750,6 +1754,11 @@
         } else {
             updateCloudSyncStatus('🔑 尚未設定同步碼');
         }
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+      }
     </script>
 </body>
 </html>
