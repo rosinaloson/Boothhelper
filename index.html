@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <!-- 1. 一般瀏覽器分頁的小圖示 -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <!-- 2. 給 iOS 網頁 App / 加入主畫面用的標準圖示 -->
-    <link rel="apple-touch-icon" href="321.png">
-    
-    <!-- 3. 指定圖片尺寸（假設你的 123.png 是 180x180 像素，強烈建議加上尺寸標籤，避免 iOS 亂猜） -->
-    <link rel="apple-touch-icon" sizes="180x180" href="321.png">
-</head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>阿桑的菜籃攤位幫手</title>
+    
+    <!-- 1. 一般瀏覽器分頁與電腦書籤的小圖示 -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- 建議多加這一行：讓現代瀏覽器也可以讀取高畫質的 png 當作書籤圖示 -->
+    <link rel="icon" type="image/png" href="321.png">
+
+    <!-- 2. 給 iOS 網頁 App / 加入主畫面用的標準圖示 -->
+    <link rel="apple-touch-icon" href="321.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="321.png">
+
     <!-- 版本：v1.1005 -->
     <style>
         @import url("https://fontsapi.zeoseven.com/2001/main/result.css");
-
+        
         html, body { width: 100%; height: 100%; background-color: #ffd6e0; margin: 0; padding: 0; }
         * { box-sizing: border-box; font-family: "ZhengGeDianHei 16", sans-serif; -webkit-tap-highlight-color: transparent; }
         
